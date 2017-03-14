@@ -19,6 +19,8 @@ class MessageList extends Component{
                             date = {msg.date}
                             numRetweets = {msg.retweets}
                             numFamorites = {msg.favorites}
+                            onRetweet = {() => this.props.onRetweet(msg.id)}
+                            onFavorite = {() => this.props.onFavorite(msg.id)}
                         />
                     )
                 }).reverse()}
