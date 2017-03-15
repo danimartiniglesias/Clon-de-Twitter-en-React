@@ -22027,6 +22027,7 @@
 	        _this.state = {
 	            user: Object.assign({}, _this.props.user, { retweets: [], favorites: [] }),
 	            openText: false,
+	            userNameToReply: '',
 	            messages: [{
 	                id: _uuid2.default.v4(),
 	                text: 'Mensaje de prueba ',
@@ -22053,6 +22054,7 @@
 	        _this.handleOpenText = _this.handleOpenText.bind(_this);
 	        _this.handleRetweet = _this.handleRetweet.bind(_this);
 	        _this.handleFavorite = _this.handleFavorite.bind(_this);
+	        _this.handleReplyTweet = _this.handleReplyTweet.bind(_this);
 	        return _this;
 	    }
 
@@ -22135,12 +22137,21 @@
 	            }
 	        }
 	    }, {
+	        key: 'handleReplyTweet',
+	        value: function handleReplyTweet(msgId, userNameToReply) {
+	            this.setState({
+	                openText: true,
+	                userNameToReply: userNameToReply // when key an value is the same we don't need both
+	            });
+	        }
+	    }, {
 	        key: 'renderOpenText',
 	        value: function renderOpenText() {
 	            if (this.state.openText) {
 	                return _react2.default.createElement(_InputText2.default, {
 	                    onSendText: this.handleSendText,
-	                    onCloseText: this.handleCloseText
+	                    onCloseText: this.handleCloseText,
+	                    userNameToReply: this.state.userNameToReply
 	                });
 	            }
 	        }
@@ -22159,7 +22170,8 @@
 	                _react2.default.createElement(_MessageList2.default, {
 	                    messages: this.state.messages,
 	                    onRetweet: this.handleRetweet,
-	                    onFavorite: this.handleFavorite
+	                    onFavorite: this.handleFavorite,
+	                    onReplyTweet: this.handleReplyTweet
 	                })
 	            );
 	        }
@@ -22458,6 +22470,9 @@
 	                        },
 	                        onFavorite: function onFavorite() {
 	                            return _this2.props.onFavorite(msg.id);
+	                        },
+	                        onReplyTweet: function onReplyTweet() {
+	                            return _this2.props.onReplyTweet(msg.id, msg.userName);
 	                        }
 	                    });
 	                }).reverse()
@@ -22577,7 +22592,10 @@
 	                        { className: _message2.default.buttons },
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: _message2.default.icon },
+	                            {
+	                                className: _message2.default.icon,
+	                                onClick: this.props.onReplyTweet
+	                            },
 	                            _react2.default.createElement('span', { className: 'fa fa-reply' })
 	                        ),
 	                        _react2.default.createElement(
@@ -37613,7 +37631,11 @@
 	            return _react2.default.createElement(
 	                'form',
 	                { className: _inputText2.default.form, onSubmit: this.props.onSendText },
-	                _react2.default.createElement('textarea', { className: _inputText2.default.text, name: 'text' }),
+	                _react2.default.createElement(
+	                    'textarea',
+	                    { className: _inputText2.default.text, name: 'text' },
+	                    this.props.userNameToReply ? '@{this.props.userNameToReply }' : ''
+	                ),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: _inputText2.default.buttons },
