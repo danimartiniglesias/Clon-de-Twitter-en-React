@@ -21527,6 +21527,14 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
+	var _Profile = __webpack_require__(351);
+
+	var _Profile2 = _interopRequireDefault(_Profile);
+
+	var _Login = __webpack_require__(354);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21544,22 +21552,33 @@
 	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
 	        _this.state = {
-	            user: {
-	                photoUrl: 'https://scontent-mad1-1.xx.fbcdn.net/v/t1.0-1/p60x60/14291697_10154155646589355_886654990813942677_n.jpg?oh=d7a3d9ffbc1dbbed0b71924d9ebc52b6&oe=5941576A',
-	                email: 'danimartin15@gmail.com',
-	                displayName: 'Dani'
-	            }
+	            user: null
 	        };
+
+	        // this.state = {
+	        // {
+	        //     photoUrl: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
+	        //         email: 'danimartin15@gmail.com',
+	        //     displayName: 'Dani',
+	        //     location: 'Barcelona'
+	        // }
+
+	        _this.handleOnAuth = _this.handleOnAuth.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(App, [{
+	        key: 'handleOnAuth',
+	        value: function handleOnAuth() {
+	            console.log('onAuth');
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this2 = this;
 
 	            return _react2.default.createElement(
-	                HashRouter,
+	                _reactRouter.HashRouter,
 	                null,
 	                _react2.default.createElement(
 	                    'div',
@@ -21569,16 +21588,27 @@
 	                            if (_this2.state.user) {
 	                                return _react2.default.createElement(_Main2.default, { user: _this2.state.user });
 	                            } else {
-	                                //Render Login
+	                                return _react2.default.createElement(_Login2.default, {
+	                                    onAuth: _this2.handleOnAuth
+	                                });
 	                            }
 	                        } }),
 	                    _react2.default.createElement(_reactRouter.Match, { pattern: '/profile', render: function render() {
-	                            //Render <Profile />
+	                            return _react2.default.createElement(_Profile2.default, {
+	                                picture: _this2.state.user.photoUrl,
+	                                username: _this2.state.user.email.split('@')[0],
+	                                displayName: _this2.state.user.displayName,
+	                                location: _this2.state.user.location,
+	                                emailAddress: _this2.state.user.email
+	                            });
 	                        } }),
 	                    _react2.default.createElement(_reactRouter.Match, { pattern: '/user/:username', render: function render(_ref) {
-	                            //Render <Profile  />  pasando params.username
-
 	                            var params = _ref.params;
+
+	                            return _react2.default.createElement(_Profile2.default, {
+	                                displayName: params.username,
+	                                username: params.username
+	                            });
 	                        } })
 	                )
 	            );
@@ -26079,7 +26109,7 @@
 	            messages: [{
 	                id: _uuid2.default.v4(),
 	                text: 'Mensaje de prueba ',
-	                picture: 'https://d13yacurqjgara.cloudfront.net/users/31260/screenshots/765813/attachments/75674/twitter-icon.png',
+	                picture: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
 	                displayName: 'Dani',
 	                userName: 'morpheo_neo',
 	                date: Date.now() - 180000,
@@ -26088,7 +26118,7 @@
 	            }, {
 	                id: _uuid2.default.v4(),
 	                text: 'Este es otro mensaje de prueba ',
-	                picture: 'https://d13yacurqjgara.cloudfront.net/users/31260/screenshots/765813/attachments/75674/twitter-icon.png',
+	                picture: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
 	                displayName: 'Dani',
 	                userName: 'morpheo_neo',
 	                date: Date.now() - 180000,
@@ -26613,7 +26643,7 @@
 	                    'div',
 	                    { className: _message2.default.user },
 	                    _react2.default.createElement(
-	                        Link,
+	                        _reactRouter.Link,
 	                        { to: userLink },
 	                        _react2.default.createElement(
 	                            'figure',
@@ -41774,6 +41804,8 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(180);
+
 	var _profileBar = __webpack_require__(349);
 
 	var _profileBar2 = _interopRequireDefault(_profileBar);
@@ -41802,21 +41834,25 @@
 	                'div',
 	                { className: _profileBar2.default.root },
 	                _react2.default.createElement(
-	                    'figure',
-	                    null,
-	                    _react2.default.createElement('img', { className: _profileBar2.default.avatar, src: this.props.picture }),
+	                    _reactRouter.Link,
+	                    { to: './profile' },
 	                    _react2.default.createElement(
-	                        'span',
-	                        { className: _profileBar2.default.username },
-	                        'Hola @',
-	                        this.props.userName,
-	                        '!'
-	                    ),
-	                    _react2.default.createElement(
-	                        'button',
-	                        { onClick: this.props.onOpenText, className: _profileBar2.default.button },
-	                        _react2.default.createElement('span', { className: 'fa fa-lg fa-edit' }),
-	                        ' Tweet'
+	                        'figure',
+	                        null,
+	                        _react2.default.createElement('img', { className: _profileBar2.default.avatar, src: this.props.picture }),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: _profileBar2.default.username },
+	                            'Hola @',
+	                            this.props.userName,
+	                            '!'
+	                        ),
+	                        _react2.default.createElement(
+	                            'button',
+	                            { onClick: this.props.onOpenText, className: _profileBar2.default.button },
+	                            _react2.default.createElement('span', { className: 'fa fa-lg fa-edit' }),
+	                            ' Tweet'
+	                        )
 	                    )
 	                )
 	            );
@@ -41871,6 +41907,244 @@
 		"avatar": "profile-bar__avatar__2pA03",
 		"username": "profile-bar__username__1-iDN",
 		"button": "profile-bar__button__WeTn5"
+	};
+
+/***/ },
+/* 351 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _profile = __webpack_require__(352);
+
+	var _profile2 = _interopRequireDefault(_profile);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Profile = function (_Component) {
+	    _inherits(Profile, _Component);
+
+	    function Profile() {
+	        _classCallCheck(this, Profile);
+
+	        return _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).apply(this, arguments));
+	    }
+
+	    _createClass(Profile, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: _profile2.default.root },
+	                _react2.default.createElement('img', { className: _profile2.default.avatar, src: this.props.picture }),
+	                _react2.default.createElement(
+	                    'span',
+	                    { className: _profile2.default.name },
+	                    this.props.displayName
+	                ),
+	                _react2.default.createElement(
+	                    'ul',
+	                    { className: _profile2.default.data },
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        _react2.default.createElement('span', { className: 'fa fa-user' }),
+	                        ' ',
+	                        this.props.username
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        _react2.default.createElement('span', { className: 'fa fa-envelope' }),
+	                        ' ',
+	                        this.props.emailAddress
+	                    ),
+	                    _react2.default.createElement(
+	                        'li',
+	                        null,
+	                        _react2.default.createElement('span', { className: 'fa fa-map-marker' }),
+	                        ' ',
+	                        this.props.location
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Profile;
+	}(_react.Component);
+
+	exports.default = Profile;
+
+/***/ },
+/* 352 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(353);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(226)(content, {"sourceMap":true});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]!./profile.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]!./profile.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 353 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(225)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".profile__root__zwUk9{\r\n    display: flex;\r\n    flex-direction: column;\r\n    margin: 0 auto;\r\n    width: 100%;\r\n}\r\n\r\n.profile__avatar__1oujU{\r\n    width: 150px;\r\n    height: 150px;\r\n    border-radius: 50%;\r\n    margin: 1em auto;\r\n}\r\n\r\n.profile__name__3rRiA{\r\n    font-weight: 700;\r\n    font-size: 20px;\r\n    text-align: center;\r\n}\r\n\r\n.profile__data__1ymE-{\r\n    list-style-type:none;\r\n    margin: 1em 0;\r\n    padding: 0;\r\n}\r\n\r\n.profile__data__1ymE- > li{\r\n    background: #ffffff;\r\n    padding: 1em;\r\n    margin: 0;\r\n    border: 1px solid #ddd;\r\n    color: #777777;\r\n}", ""]);
+
+	// exports
+	exports.locals = {
+		"root": "profile__root__zwUk9",
+		"avatar": "profile__avatar__1oujU",
+		"name": "profile__name__3rRiA",
+		"data": "profile__data__1ymE-"
+	};
+
+/***/ },
+/* 354 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _login = __webpack_require__(355);
+
+	var _login2 = _interopRequireDefault(_login);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Login = function (_Component) {
+	    _inherits(Login, _Component);
+
+	    function Login() {
+	        _classCallCheck(this, Login);
+
+	        return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).apply(this, arguments));
+	    }
+
+	    _createClass(Login, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: _login2.default.root },
+	                _react2.default.createElement(
+	                    'p',
+	                    { className: _login2.default.text },
+	                    'Necesitamos que inicies sesi\xF3n con tu cuenta de Github para poder leer y scribir mensajes'
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    {
+	                        onClick: this.props.onAuth,
+	                        className: _login2.default.button
+	                    },
+	                    _react2.default.createElement('span', { className: 'fa fa-github' }),
+	                    ' Login con Github'
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Login;
+	}(_react.Component);
+
+	exports.default = Login;
+
+/***/ },
+/* 355 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(356);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(226)(content, {"sourceMap":true});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]!./login.css", function() {
+				var newContent = require("!!../../../node_modules/css-loader/index.js?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]!./login.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 356 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(225)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".login__root__2KoAW{\r\n    margin: 0 1em;\r\n    text-align: center;\r\n}\r\n\r\n.login__text__fcrcX{\r\n    color: #888888;\r\n}\r\n\r\n.login__button__1PygA{\r\n    border:1px solid #666;\r\n    border-radius: 5px;\r\n    padding:0.5em 1em;\r\n    background-color: #aaaaaa;\r\n    color: #eaeaea;\r\n}", ""]);
+
+	// exports
+	exports.locals = {
+		"root": "login__root__2KoAW",
+		"text": "login__text__fcrcX",
+		"button": "login__button__1PygA"
 	};
 
 /***/ }
