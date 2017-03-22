@@ -21549,19 +21549,20 @@
 	    function App() {
 	        _classCallCheck(this, App);
 
+	        // this.state = {
+	        //     user:null
+	        // }
+
 	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
 	        _this.state = {
-	            user: null
+	            user: {
+	                photoUrl: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
+	                email: 'danimartin15@gmail.com',
+	                displayName: 'Dani',
+	                location: 'Barcelona'
+	            }
 	        };
-
-	        // this.state = {
-	        // {
-	        //     photoUrl: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
-	        //         email: 'danimartin15@gmail.com',
-	        //     displayName: 'Dani',
-	        //     location: 'Barcelona'
-	        // }
 
 	        _this.handleOnAuth = _this.handleOnAuth.bind(_this);
 	        return _this;
@@ -25656,8 +25657,6 @@
 	    value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -25668,38 +25667,27 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Header = function (_Component) {
-	    _inherits(Header, _Component);
-
-	    function Header() {
-	        _classCallCheck(this, Header);
-
-	        return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
-	    }
-
-	    _createClass(Header, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'header',
-	                { className: _header2.default.root },
-	                _react2.default.createElement(
-	                    'h1',
-	                    { className: _header2.default.logo },
-	                    'Reacttr'
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Header;
-	}(_react.Component);
+	// class Header extends Component{
+	//     render(){
+	//         return(
+	//             <header className={styles.root}>
+	//                 <h1 className={styles.logo}>Reacttr</h1>
+	//             </header>
+	//         )
+	//     }
+	// }
+	// Como es un componente representacional o sin estado(Stateless) no es necesario importar { Component } y podemos hacer una funcion que devuelva un JSX sin utilizar React y usando solo JSX
+	function Header() {
+	    return _react2.default.createElement(
+	        'header',
+	        { className: _header2.default.root },
+	        _react2.default.createElement(
+	            'h1',
+	            { className: _header2.default.logo },
+	            'Reacttr'
+	        )
+	    );
+	}
 
 	exports.default = Header;
 
@@ -26094,6 +26082,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var propTypes = {
+	    user: _react.PropTypes.object.isRequired
+	};
+
 	var Main = function (_Component) {
 	    _inherits(Main, _Component);
 
@@ -26257,6 +26249,8 @@
 
 	    return Main;
 	}(_react.Component);
+
+	Main.propTypes = propTypes;
 
 	exports.default = Main;
 
@@ -26516,6 +26510,13 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var propTypes = {
+	    messages: _react.PropTypes.ArrayOf(_react.PropTypes.object).isRequired,
+	    onRetweet: _react.PropTypes.func.isRequired,
+	    onFavorite: _react.PropTypes.func.isRequired,
+	    onReplyTweet: _react.PropTypes.func.isRequired
+	};
+
 	var MessageList = function (_Component) {
 	    _inherits(MessageList, _Component);
 
@@ -26561,6 +26562,8 @@
 	    return MessageList;
 	}(_react.Component);
 
+	MessageList.propTypes = propTypes;
+
 	exports.default = MessageList;
 
 /***/ },
@@ -26574,6 +26577,8 @@
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _propTypes;
 
 	var _react = __webpack_require__(2);
 
@@ -26596,6 +26601,19 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	var propTypes = (_propTypes = {
+	    userName: _react.PropTypes.string.isRequired,
+	    picture: _react.PropTypes.string.isRequired,
+	    displayName: _react.PropTypes.string.isRequired,
+	    text: _react.PropTypes.string.isRequired,
+	    date: _react.PropTypes.number.isRequired,
+	    numRetweets: _react.PropTypes.number.isRequired,
+	    numFamorites: _react.PropTypes.number.isRequired,
+	    onRetweet: _react.PropTypes.func.isRequired
+	}, _defineProperty(_propTypes, 'onRetweet', _react.PropTypes.func.isRequired), _defineProperty(_propTypes, 'onReplyTweet', _react.PropTypes.func.isRequired), _propTypes);
 
 	var Message = function (_Component) {
 	    _inherits(Message, _Component);
@@ -26717,6 +26735,7 @@
 	    return Message;
 	}(_react.Component);
 
+	Message.propTypes = propTypes;
 	exports.default = Message;
 
 /***/ },
@@ -41700,6 +41719,12 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var propTypes = {
+	    userNameToReply: _react.PropTypes.string.isRequired,
+	    onSendText: _react.PropTypes.func.isRequired,
+	    onCloseText: _react.PropTypes.func.isRequired
+	};
+
 	var InputText = function (_Component) {
 	    _inherits(InputText, _Component);
 
@@ -41741,6 +41766,7 @@
 	    return InputText;
 	}(_react.Component);
 
+	InputText.PropTypes = propTypes;
 	exports.default = InputText;
 
 /***/ },
@@ -41818,6 +41844,12 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var propTypes = {
+	    picture: _react.PropTypes.string.isRequired,
+	    userName: _react.PropTypes.string.isRequired,
+	    onOpenText: _react.PropTypes.func.isRequired
+	};
+
 	var ProfileBar = function (_Component) {
 	    _inherits(ProfileBar, _Component);
 
@@ -41861,6 +41893,8 @@
 
 	    return ProfileBar;
 	}(_react.Component);
+
+	ProfileBar.propTypes = propTypes;
 
 	exports.default = ProfileBar;
 
@@ -41937,6 +41971,14 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var propTypes = {
+	    picture: _react.PropTypes.string.isRequired,
+	    displayName: _react.PropTypes.string.isRequired,
+	    username: _react.PropTypes.string.isRequired,
+	    emailAddress: _react.PropTypes.string.isRequired,
+	    location: _react.PropTypes.string.isRequired
+	};
+
 	var Profile = function (_Component) {
 	    _inherits(Profile, _Component);
 
@@ -41989,6 +42031,8 @@
 
 	    return Profile;
 	}(_react.Component);
+
+	Profile.propTypes = propTypes;
 
 	exports.default = Profile;
 
@@ -42065,6 +42109,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var propTypes = {
+	    onAuth: _react.PropTypes.func.isRequired
+	};
+
 	var Login = function (_Component) {
 	    _inherits(Login, _Component);
 
@@ -42100,6 +42148,8 @@
 
 	    return Login;
 	}(_react.Component);
+
+	Login.propTypes = propTypes;
 
 	exports.default = Login;
 
