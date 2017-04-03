@@ -1,8 +1,15 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import uuid from 'uuid'
 import MessageList from '../MessageList'
 import InputText from '../InputText'
 import ProfileBar from '../ProfileBar'
+import firebase from 'firebase'
+
+const propTypes = {
+    user: PropTypes.object.isRequired,
+    onLogout: PropTypes.func.isRequired
+}
+
 class Main extends Component{
     constructor(props){
         super(props)
@@ -11,26 +18,26 @@ class Main extends Component{
             openText: false,
             userNameToReply: '',
             messages: [
-                {
-                    id: uuid.v4(),
-                    text: 'Mensaje de prueba ',
-                    picture: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
-                    displayName: 'Dani',
-                    userName: 'morpheo_neo',
-                    date: Date.now()- 180000,
-                    favorites: 0,
-                    retweets: 0
-                },
-                {
-                    id: uuid.v4(),
-                    text: 'Este es otro mensaje de prueba ',
-                    picture: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
-                    displayName: 'Dani',
-                      userName: 'morpheo_neo',
-                    date: Date.now() - 180000,
-                    favorites: 0,
-                    retweets: 0
-                }
+                // {
+                //     id: uuid.v4(),
+                //     text: 'Mensaje de prueba ',
+                //     picture: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
+                //     displayName: 'Dani',
+                //     userName: 'morpheo_neo',
+                //     date: Date.now()- 180000,
+                //     favorites: 0,
+                //     retweets: 0
+                // },
+                // {
+                //     id: uuid.v4(),
+                //     text: 'Este es otro mensaje de prueba ',
+                //     picture: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
+                //     displayName: 'Dani',
+                //       userName: 'morpheo_neo',
+                //     date: Date.now() - 180000,
+                //     favorites: 0,
+                //     retweets: 0
+                // }
             ]
         }
 
@@ -42,6 +49,17 @@ class Main extends Component{
         this.handleReplyTweet = this.handleReplyTweet.bind(this)
     }
 
+    componentWillMount(){
+        const messagesRef = firebase.database().ref().child('messages')
+
+        messagesRef.on('child_added', snapshot => {
+            this.setState({
+                messages: this.state.messages.concat(snapshot.val()),
+                openText: false
+            })
+        })
+    }
+
     handleSendText(event){
         event.preventDefault()
 
@@ -49,15 +67,16 @@ class Main extends Component{
             id : uuid.v4(),
             username : this.props.user.email.split('@')[0],
             displayName: this.props.user.displayName,
-            picture: this.props.user.photoUrl,
+            picture: this.props.user.photoURL,
             date: Date.now(),
-            text: event.target.text.value
+            text: event.target.text.value,
+            retweets: 0,
+            favorites: 0
         }
 
-        this.setState({
-            messages : this.state.messages.concat(newMessage),
-            openText: false
-        })
+        const messageRef  = firebase.database().ref().child('messages')
+        const messageId = messageRef.push()
+        messageId.set(newMessage)
     }
 
     handleCloseText(event){
@@ -141,6 +160,7 @@ class Main extends Component{
                     picture={this.props.user.photoUrl}
                     userName={this.props.user.email.split('@')[0]}
                     onOpenText={this.handleOpenText}
+                    onLogout={this.props.onLogout}
                 />
                 {this.renderOpenText()}
                 <MessageList
@@ -153,5 +173,7 @@ class Main extends Component{
         )
     }
 }
+
+Main.propTypes = propTypes
 
 export default Main

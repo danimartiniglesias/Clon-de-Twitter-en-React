@@ -1,6 +1,13 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { Link } from 'react-router'
 import styles from './profile-bar.css'
+
+const propTypes = {
+    picture: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
+    onOpenText: PropTypes.func.isRequired
+}
+
 class ProfileBar extends Component{
     constructor(){
         super()
@@ -16,6 +23,9 @@ class ProfileBar extends Component{
                         <button onClick={this.props.onOpenText} className={styles.button}>
                             <span className="fa fa-lg fa-edit"></span> Tweet
                         </button>
+                        <button onClick={this.props.onLogout} className={styles.button}>
+                            <span className="fa fa-lg fa-sign-out"></span> Salir
+                        </button>
                     </figure>
                 </Link>
             </div>
@@ -23,5 +33,7 @@ class ProfileBar extends Component{
         )
     }
 }
+
+ProfileBar.propTypes = propTypes
 
 export default ProfileBar

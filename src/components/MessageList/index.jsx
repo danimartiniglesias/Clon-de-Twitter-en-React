@@ -1,5 +1,13 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import Message from '../Message'
+
+const propTypes={
+    messages: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onRetweet: PropTypes.func.isRequired,
+    onFavorite: PropTypes.func.isRequired,
+    onReplyTweet: PropTypes.func.isRequired
+}
+
 class MessageList extends Component{
     constructor(props){
         super(props)
@@ -29,5 +37,7 @@ class MessageList extends Component{
         )
     }
 }
+
+MessageList.propTypes = propTypes
 
 export default MessageList

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import  { HashRouter, Match } from 'react-router'
+import firebase from 'firebase'
 
 import Header from '../Header'
 import Main from '../Main'
@@ -10,23 +11,49 @@ class App extends Component{
 
     constructor(){
         super()
+        // this.state = {
+        //     user:null
+        // }
+
+        // this.state = {
+        //     user:{
+        //         photoUrl: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
+        //         email: 'danimartin15@gmail.com',
+        //         displayName: 'Dani',
+        //     location: 'Barcelona'
+        //     }
+        // }
+
         this.state = {
             user:null
         }
 
-        // this.state = {
-        // {
-        //     photoUrl: 'https://instagram.fmad3-1.fna.fbcdn.net/t51.2885-19/11249598_872248576145395_820801853_a.jpg',
-        //         email: 'danimartin15@gmail.com',
-        //     displayName: 'Dani',
-        //     location: 'Barcelona'
-        // }
-
         this.handleOnAuth = this.handleOnAuth.bind(this)
+        this.handleLogout = this.handleLogout.bind(this)
+    }
+
+    componentWillMount(){
+        firebase.auth().onAuthStateChanged(user => {
+            if(user){
+                this.setState({user}) // como clave y valor es el mismo podemos obviarlo y no poner {user:user})
+            }else{
+                this.setState({user:null})
+            }
+        })
     }
 
     handleOnAuth(){
-        console.log('onAuth')
+        const provider = new firebase.auth.GithubAuthProvider()
+
+        firebase.auth().signInWithPopup(provider)
+            .then(result => console.log(`${result.user.email} ha iniciado sesion`))
+            .catch(error => console.log(`Error: ${error.code}: ${error.message}`))
+    }
+
+    handleLogout(){
+        firebase.auth().signOut()
+            .then(() => console.log('Te has desconectado correctamente'))
+            .catch(() => console.error('Un error ocurrió'))
     }
 
     render(){
@@ -38,7 +65,10 @@ class App extends Component{
 
                     <Match exactly pattern='/' render={() =>{
                         if (this.state.user){
-                            return <Main user={this.state.user} />
+                            return <Main
+                                user={this.state.user}
+                                onLogout={this.handleLogout}
+                            />
                         }else{
                             return(
                                 <Login

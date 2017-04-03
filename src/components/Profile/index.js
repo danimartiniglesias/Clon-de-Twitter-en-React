@@ -1,5 +1,13 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import styles from './profile.css'
+
+const propTypes = {
+    picture : PropTypes.string.isRequired,
+    displayName : PropTypes.string.isRequired,
+    username : PropTypes.string.isRequired,
+    emailAddress : PropTypes.string.isRequired,
+    location : PropTypes.string.isRequired
+}
 
 class Profile extends Component{
 
@@ -24,5 +32,7 @@ class Profile extends Component{
     }
 
 }
+
+Profile.propTypes = propTypes
 
 export default Profile
